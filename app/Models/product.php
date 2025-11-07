@@ -2,88 +2,58 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class User extends Authenticatable
+class product extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+   protected $fillable = [
+    'id',
+    'name',
+    'descrption',
+    'price', 
+    'quantity', 
+    'image',
+    'category_id',
+    'company_id'
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    
-protected $fillable = [
-        'id',
-        'name',
-        'last_name',
-         'email',
-        'country',
-        'phone',
-        'password'
     ];
 
 
-    protected $allowIncluded = ['carts', 'order', 'company', 'deliverie', 'roles_us'];
+    protected $allowIncluded = ['company', 'category' ];
     protected $allowFilter = [
         'id',
-        'name',
-        'last_name',
-         'email',
-        'country',
-        'phone',
-      
+    'name',
+    'descrption',
+    'price', 
+    'quantity', 
+    'image',
+    'category_id',
+    'company_id'
+
     ];
     protected $allowSort =
     [
         
-        'name',
-        'last_name',
-        'phone',
-        
+       
+    'name',
+    'price', 
+    'quantity', 
+   
+         
 
     ];
 
-
-    public function carts(): HasMany
-
-    {
-
-        return $this->hasMany(cart::class);
+      public function company():BelongsTo
+      {
+        return $this->belongsTo(company::class);
     }
 
-     public function company():HasOne
-    
-    {
-
-        return $this->hasOne(Company::class);
+     public function category():BelongsTo
+      {
+        return $this->belongsTo(Category::class);
     }
-
- public function deliverie(): HasOne
-    
-    {
-
-        return $this->hasOne(Deliverie::class);
-    }
-
- public function order():HasMany
-    
-    {
-
-        return $this->hasMany(Order::class);
-    }
-
-
-
-
 
     //Scope//
 
@@ -174,37 +144,7 @@ protected $fillable = [
         //http://api.codersfree1.test/v1/categories?perPage=2
     }
 }
+ 
 
-
-
-
-
-
-
-
-
-
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     *
-     */
-   // protected $hidden = [
-     //   'password',
-     //   'remember_token',
-    //];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     *
-     */
-   // protected function casts(): array
-   // {
-    //    return [
-    //        'email_verified_at' => 'datetime',
-     //       'password' => 'hashed',
-     //   ];
-  //  }
+ 
 
